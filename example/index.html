@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../angie-date-picker.css" rel="stylesheet">
-    <style>
-        /*body {padding: 180px;}*/
-    </style>
     <!--<script src="../bower_components/jquery/dist/jquery.min.js"></script>-->
     <script src="../bower_components/moment/min/moment-with-locales.js"></script>
     <script src="../bower_components/angular/angular.js"></script>
@@ -31,8 +28,7 @@
 //                max: moment($scope.birthday, 'DD-MM-YYYY').year(moment().year()).endOf('day'),
                     time: false,
                     viewDateFormat: 'DD MMMM YYYY',
-                    modelDateFormat: 'DD-MM-YYYY',
-                    position: 'rt'
+                    modelDateFormat: 'DD-MM-YYYY'
                 },
                 meeting: {
                     min: moment().startOf('day')
@@ -49,15 +45,16 @@
 </head>
 <body ng-controller="MainCtrl">
 
-<form name="BirthdayForm">
+<form name="BirthdayForm" style="margin: 0 auto; width: 320px;">
     <label for="birthday-input">Birthday:</label>
-    <input name="birthday"
+    <div style="position: relative;"><input name="birthday"
            id="birthday-input"
            ng-model="birthday"
            date-picker="datePickerOptions.birthday">
+    </div>
 </form>
 
-<form name="MeetingForm">
+<form name="MeetingForm" style="width: 2000px;">
     <label>Next meeting at: {{ meeting }}</label>
     <date-picker ng-model="meeting" options="datePickerOptions.meeting"></date-picker>
 </form>

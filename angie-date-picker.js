@@ -301,61 +301,70 @@ angular.module('angie.datePicker', [
 
             function getOffset() {
                 var offset = {};
-                var pos = $scope.position;
 
-                switch (pos) {
+                var elemRect = $element[0].getBoundingClientRect();
+                var popupRect = $popup[0].getBoundingClientRect();
+
+                var elemLeft = elemRect.left + window.scrollX;
+                var elemTop = elemRect.top + window.scrollY;
+                var elemWidth = elemRect.width;
+                var elemHeight = elemRect.height;
+                var popupWidth = popupRect.width;
+                var popupHeight = popupRect.height;
+
+                switch ($scope.position) {
                     case 'cm':
                     case 'mc':
-                        offset.x = $element.prop('offsetLeft') + ($element.prop('offsetWidth') / 2 - $popup.prop('offsetWidth') / 2);
-                        offset.y = $element.prop('offsetTop') + ($element.prop('offsetHeight') / 2 - $popup.prop('offsetHeight') / 2);
+                        offset.x = elemLeft + (elemWidth / 2 - popupWidth / 2);
+                        offset.y = elemTop + (elemHeight / 2 - popupHeight / 2);
                         break;
                     case 'lm':
-                        offset.x = $element.prop('offsetLeft') - $popup.prop('offsetWidth') - options.spacing;
-                        offset.y = $element.prop('offsetTop') + ($element.prop('offsetHeight') / 2 - $popup.prop('offsetHeight') / 2);
+                        offset.x = elemLeft - popupWidth - options.spacing;
+                        offset.y = elemTop + (elemHeight / 2 - popupHeight / 2);
                         break;
                     case 'lt':
-                        offset.x = $element.prop('offsetLeft') - $popup.prop('offsetWidth') - options.spacing;
-                        offset.y = $element.prop('offsetTop');
+                        offset.x = elemLeft - popupWidth - options.spacing;
+                        offset.y = elemTop;
                         break;
                     case 'lb':
-                        offset.x = $element.prop('offsetLeft') - $popup.prop('offsetWidth') - options.spacing;
-                        offset.y = $element.prop('offsetTop') + $element.prop('offsetHeight') - $popup.prop('offsetHeight');
+                        offset.x = elemLeft - popupWidth - options.spacing;
+                        offset.y = elemTop + elemHeight - popupHeight;
                         break;
                     case 'rm':
-                        offset.x = $element.prop('offsetLeft') + $element.prop('offsetWidth') + options.spacing;
-                        offset.y = $element.prop('offsetTop') + ($element.prop('offsetHeight') / 2 - $popup.prop('offsetHeight') / 2);
+                        offset.x = elemLeft + elemWidth + options.spacing;
+                        offset.y = elemTop + (elemHeight / 2 - popupHeight / 2);
                         break;
                     case 'rt':
-                        offset.x = $element.prop('offsetLeft') + $element.prop('offsetWidth') + options.spacing;
-                        offset.y = $element.prop('offsetTop');
+                        offset.x = elemLeft + elemWidth + options.spacing;
+                        offset.y = elemTop;
                         break;
                     case 'rb':
-                        offset.x = $element.prop('offsetLeft') + $element.prop('offsetWidth') + options.spacing;
-                        offset.y = $element.prop('offsetTop') + $element.prop('offsetHeight') - $popup.prop('offsetHeight');
+                        offset.x = elemLeft + elemWidth + options.spacing;
+                        offset.y = elemTop + elemHeight - popupHeight;
                         break;
                     case 'bl':
-                        offset.x = $element.prop('offsetLeft');
-                        offset.y = $element.prop('offsetTop') + $element.prop('offsetHeight') + options.spacing;
+                        offset.x = elemLeft;
+                        offset.y = elemTop + elemHeight + options.spacing;
                         break;
                     case 'bc':
-                        offset.x = $element.prop('offsetLeft') + ($element.prop('offsetWidth') / 2 - $popup.prop('offsetWidth') / 2);
-                        offset.y = $element.prop('offsetTop') + $element.prop('offsetHeight') + options.spacing;
+                        offset.x = elemLeft + (elemWidth / 2 - popupWidth / 2);
+                        offset.y = elemTop + elemHeight + options.spacing;
                         break;
                     case 'br':
-                        offset.x = $element.prop('offsetLeft') + $element.prop('offsetWidth') - $popup.prop('offsetWidth');
-                        offset.y = $element.prop('offsetTop') + $element.prop('offsetHeight') + options.spacing;
+                        offset.x = elemLeft + elemWidth - popupWidth;
+                        offset.y = elemTop + elemHeight + options.spacing;
                         break;
                     case 'tl':
-                        offset.x = $element.prop('offsetLeft');
-                        offset.y = $element.prop('offsetTop') - $popup.prop('offsetHeight') - options.spacing;
+                        offset.x = elemLeft;
+                        offset.y = elemTop - popupHeight - options.spacing;
                         break;
                     case 'tc':
-                        offset.x = $element.prop('offsetLeft') + ($element.prop('offsetWidth') / 2 - $popup.prop('offsetWidth') / 2);
-                        offset.y = $element.prop('offsetTop') - $popup.prop('offsetHeight') - options.spacing;
+                        offset.x = elemLeft + (elemWidth / 2 - popupWidth / 2);
+                        offset.y = elemTop - popupHeight - options.spacing;
                         break;
                     case 'tr':
-                        offset.x = $element.prop('offsetLeft') + $element.prop('offsetWidth') - $popup.prop('offsetWidth');
-                        offset.y = $element.prop('offsetTop') - $popup.prop('offsetHeight') - options.spacing;
+                        offset.x = elemLeft + elemWidth - popupWidth;
+                        offset.y = elemTop - popupHeight - options.spacing;
                         break;
                 }
 
