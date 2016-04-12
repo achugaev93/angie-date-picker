@@ -1,0 +1,26 @@
+{
+  "name": "angie-date-picker",
+  "version": "0.0.1",
+  "description": "Date and time picker widget for AngularJS",
+  "main": "angie-date-picker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achugaev93/angie-date-picker.git"
+  },
+  "keywords": [
+    "date",
+    "time",
+    "picker",
+    "widget",
+    "angular"
+  ],
+  "author": "Alex Chugaev <achugaev93@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/achugaev93/angie-date-picker/issues"
+  },
+  "homepage": "https://github.com/achugaev93/angie-date-picker#readme"
+}

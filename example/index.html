@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="example">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../angie-date-picker.css" rel="stylesheet">
+    <style>
+        /*body {padding: 180px;}*/
+    </style>
+    <!--<script src="../bower_components/jquery/dist/jquery.min.js"></script>-->
+    <script src="../bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../angie-date-picker.js"></script>
+    <script>
+
+        angular.module('example', [
+            'last.datePicker'
+        ]).run(['datePickerOptions', function (datePickerOptions) {
+
+            datePickerOptions.spacing = 2;
+            datePickerOptions.viewDateFormat = 'DD MMMM YYYY, HH:mm';
+            datePickerOptions.modelDateFormat = 'YYYY-MM-DD HH:mm';
+
+        }]).controller('MainCtrl', ['$scope', function ($scope) {
+
+            $scope.birthday = '19-02-1993';
+
+            $scope.datePickerOptions = {
+                birthday: {
+//                min: moment($scope.birthday, 'DD-MM-YYYY').year(moment().year()).startOf('day'),
+//                max: moment($scope.birthday, 'DD-MM-YYYY').year(moment().year()).endOf('day'),
+                    time: false,
+                    viewDateFormat: 'DD MMMM YYYY',
+                    modelDateFormat: 'DD-MM-YYYY',
+                    position: 'rt'
+                },
+                meeting: {
+                    min: moment().startOf('day')
+                }
+            };
+
+
+            $scope.$watch('birthday', function (date) {
+                console.log(date);
+            });
+        }]);
+
+    </script>
+</head>
+<body ng-controller="MainCtrl">
+
+<form name="BirthdayForm">
+    <label for="birthday-input">Birthday:</label>
+    <input name="birthday"
+           id="birthday-input"
+           ng-model="birthday"
+           date-picker="datePickerOptions.birthday">
+</form>
+
+<form name="MeetingForm">
+    <label>Next meeting at: {{ meeting }}</label>
+    <date-picker ng-model="meeting" options="datePickerOptions.meeting"></date-picker>
+</form>
+
+</body>
+</html>

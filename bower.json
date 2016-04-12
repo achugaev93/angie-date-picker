@@ -1,0 +1,30 @@
+{
+  "name": "angie-date-picker",
+  "version": "0.0.1",
+  "authors": [
+    "Alex Chugaev <achugaev93@gmail.com>"
+  ],
+  "description": "Date and time picker widget for AngularJS",
+  "main": "angie-date-picker.js",
+  "keywords": [
+    "date",
+    "time",
+    "picker",
+    "widget",
+    "angular"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/achugaev93/angie-date-picker#readme",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "example"
+  ],
+  "dependencies": {
+    "angular": "^1.5.3",
+    "moment": "^2.12.0"
+  }
+}
