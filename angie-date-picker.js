@@ -42,35 +42,35 @@ angular.module('angie.datePicker', [
     spacing: 1,
     template: '\
     <div class="ngldp" ng-class="{\'ngldp--inline\': isInline}">\
-        <div class="ngldp__calendar-wrapper" ng-show="showCalendar">\
-            <div class="ngldp__head" ng-show="showHeader">\
-                <div class="ngldp__prev-month">\
-                    <button type="button"\
-                            class="ngldp__btn ngldp__btn--prev"\
-                            ng-keydown="isActivateKey($event) && prev(\'months\')" \
-                            ng-click="prev(\'months\')">prev</button>\
-                </div>\
-                <div class="ngldp__current-month">{{ currentDate.format(\'MMMM\') }}</div>\
-                <div class="ngldp__next-month">\
-                    <button type="button"\
-                            class="ngldp__btn ngldp__btn--next"\
-                            ng-keydown="isActivateKey($event) && next(\'months\')" \
-                            ng-click="next(\'months\')">next</button>\
-                </div>\
-                <div class="ngldp__prev-year">\
-                    <button type="button"\
-                            class="ngldp__btn ngldp__btn--prev"\
-                            ng-keydown="isActivateKey($event) && prev(\'years\')" \
-                            ng-click="prev(\'years\')">prev</button>\
-                </div>\
-                <div class="ngldp__current-year">{{ currentDate.format(\'YYYY\') }}</div>\
-                <div class="ngldp__next-year">\
-                    <button type="button"\
-                            class="ngldp__btn ngldp__btn--next"\
-                            ng-keydown="isActivateKey($event) && next(\'years\')" \
-                            ng-click="next(\'years\')">next</button>\
-                </div>\
+        <div class="ngldp__head" ng-show="showHeader">\
+            <div class="ngldp__prev-month">\
+                <button type="button"\
+                        class="ngldp__btn ngldp__btn--prev"\
+                        ng-keydown="isActivateKey($event) && prev(\'months\')" \
+                        ng-click="prev(\'months\')">prev</button>\
             </div>\
+            <div class="ngldp__current-month">{{ currentDate.format(\'MMMM\') }}</div>\
+            <div class="ngldp__next-month">\
+                <button type="button"\
+                        class="ngldp__btn ngldp__btn--next"\
+                        ng-keydown="isActivateKey($event) && next(\'months\')" \
+                        ng-click="next(\'months\')">next</button>\
+            </div>\
+            <div class="ngldp__prev-year">\
+                <button type="button"\
+                        class="ngldp__btn ngldp__btn--prev"\
+                        ng-keydown="isActivateKey($event) && prev(\'years\')" \
+                        ng-click="prev(\'years\')">prev</button>\
+            </div>\
+            <div class="ngldp__current-year">{{ currentDate.format(\'YYYY\') }}</div>\
+            <div class="ngldp__next-year">\
+                <button type="button"\
+                        class="ngldp__btn ngldp__btn--next"\
+                        ng-keydown="isActivateKey($event) && next(\'years\')" \
+                        ng-click="next(\'years\')">next</button>\
+            </div>\
+        </div>\
+        <div class="ngldp__calendar-wrapper" ng-show="showCalendar">\
             <div class="ngldp__body">\
                 <table class="ngldp__calendar">\
                     <thead class="ngldp__dows">\
