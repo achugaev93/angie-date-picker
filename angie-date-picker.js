@@ -597,7 +597,7 @@ angular.module('angie.datePicker', [
 
 
             if (!isInline) {
-                // $element.prop('readOnly', true);
+                $element.prop('readOnly', true);
 
                 $element.on('click', function () {
                     $scope.open();
