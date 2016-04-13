@@ -381,6 +381,7 @@ angular.module('angie.datePicker', [
 
                 $backdrop = angular.element('<div class="ngldp__backdrop"></div>');
                 $popup = $compile(datePickerOptions.template)($scope);
+
                 if (!isInline) {
                     $scope.$apply();
                 }
@@ -393,6 +394,16 @@ angular.module('angie.datePicker', [
                     });
                 }
 
+                // Set position
+
+                var offset;
+
+                if (!isInline) {
+                    offset = getOffset();
+                    $popup.css('left', offset.x);
+                    $popup.css('top', offset.y);
+                }
+
                 // Render
 
                 if (!isInline) {
@@ -403,10 +414,10 @@ angular.module('angie.datePicker', [
                     $element.append($popup);
                 }
 
-                // Set position
+                // Correct position
 
                 if (!isInline) {
-                    var offset = getOffset();
+                    offset = getOffset();
                     $popup.css('left', offset.x);
                     $popup.css('top', offset.y);
                 }
