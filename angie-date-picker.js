@@ -156,13 +156,14 @@ angular.module('angie.datePicker', [
                 </table>\
             </div>\
         </div>\
-        <div class="ngldp__controls" ng-show="showControls">\
+        <div class="ngldp__controls" ng-show="showControls && (showCalendar || !isInline)">\
             <button type="button"\
                     class="ngldp__btn ngldp__btn--today"\
                     ng-show="showCalendar"\
                     ng-click="selectToday()">Today</button>\
             <button type="button"\
                     class="ngldp__btn ngldp__btn--ok"\
+                    ng-hide="isInline"\
                     ng-click="close()">Ok</button>\
         </div>\
     </div>\
@@ -437,7 +438,7 @@ angular.module('angie.datePicker', [
 
 
             $scope.close = function () {
-                if (!$popup) {
+                if (isInline || !$popup) {
                     return;
                 }
 

@@ -1,6 +1,6 @@
 {
   "name": "angie-date-picker",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Date and time picker widget for AngularJS",
   "main": "angie-date-picker.js",
   "scripts": {
