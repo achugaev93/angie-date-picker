@@ -7,6 +7,7 @@ angular.module('angie.datePicker', [
     header: true,
     calendar: true,
     time: true,
+    controls: true,
     unitsMap: {
         years: 'years',
         months: 'months',
@@ -155,7 +156,7 @@ angular.module('angie.datePicker', [
                 </table>\
             </div>\
         </div>\
-        <div class="ngldp__controls">\
+        <div class="ngldp__controls" ng-show="showControls">\
             <button type="button"\
                     class="ngldp__btn ngldp__btn--today"\
                     ng-show="showCalendar"\
@@ -211,6 +212,7 @@ angular.module('angie.datePicker', [
             $scope.showCalendar = typeof options.calendar === 'boolean' ? options.calendar : datePickerOptions.calendar;
             $scope.showTime = typeof options.time === 'boolean' ? options.time : datePickerOptions.time;
             $scope.showHeader = typeof options.header === 'boolean' ? options.header : datePickerOptions.header;
+            $scope.showControls = typeof options.controls === 'boolean' ? options.controls : datePickerOptions.controls;
 
 
             $scope.getDaysNames = function () {
