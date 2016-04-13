@@ -1,6 +1,6 @@
 {
   "name": "angie-date-picker",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "description": "Date and time picker widget for AngularJS",
   "main": "angie-date-picker.js",
   "scripts": {
@@ -25,6 +25,10 @@
   "homepage": "https://github.com/achugaev93/angie-date-picker#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-bower-publish": "0.0.2"
+    "gulp-bower-publish": "0.0.2",
+    "gulp-csso": "^2.0.0",
+    "gulp-npm-publish": "0.0.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3"
   }
 }
