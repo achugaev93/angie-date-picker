@@ -1,7 +1,7 @@
 
 date-picker {display: block;}
 .ngldp__backdrop {position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%;}
-.ngldp {position: absolute; z-index: 1001; width: 290px; background: white; color: black; box-shadow: rgba(0,0,0,0.3) 0 1px 4px; cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;}
+.ngldp {position: absolute; z-index: 1001; width: 290px; min-width: 290px; background: white; color: black; box-shadow: rgba(0,0,0,0.3) 0 1px 4px; cursor: default; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;}
 .ngldp--inline {position: static; width: auto;}
 
 .ngldp__head {display: table; width: 100%; background: #24b685; color: white; box-shadow: #24b685 -1px 0, #24b685 1px 0;}
