@@ -9,6 +9,9 @@
 - You can customize increment steps of years, months, dates, hours, minutes.
 - And it support different date/time formatting for model value and for view value.
 
+# Here is it
+
+![Angular date picker](https://raw.githubusercontent.com/achugaev93/angie-date-picker/master/example/screen.png)
 
 # Installation
 
