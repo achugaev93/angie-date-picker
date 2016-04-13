@@ -8,6 +8,7 @@ angular.module('angie.datePicker', [
     calendar: true,
     time: true,
     controls: true,
+    className: null,
     unitsMap: {
         years: 'years',
         months: 'months',
@@ -192,6 +193,7 @@ angular.module('angie.datePicker', [
             options.steps = options.steps || datePickerOptions.steps;
             options.autoIncrement = options.autoIncrement || datePickerOptions.autoIncrement;
             options.autoIncrementInterval = options.autoIncrementInterval || datePickerOptions.autoIncrementInterval;
+            options.className = options.className || datePickerOptions.className;
 
             Object.keys(datePickerOptions.autoIncrement).forEach(function (key) {
                 options.autoIncrement[key] = options.autoIncrement[key] || datePickerOptions.autoIncrement[key];
@@ -384,6 +386,10 @@ angular.module('angie.datePicker', [
 
                 $backdrop = angular.element('<div class="ngldp__backdrop"></div>');
                 $popup = $compile(datePickerOptions.template)($scope);
+
+                if (options.className) {
+                    $popup.addClass(options.className);
+                }
 
                 if (!isInline) {
                     $scope.$apply();
@@ -591,7 +597,7 @@ angular.module('angie.datePicker', [
 
 
             if (!isInline) {
-                $element.prop('readOnly', true);
+                // $element.prop('readOnly', true);
 
                 $element.on('click', function () {
                     $scope.open();

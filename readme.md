@@ -35,7 +35,7 @@ npm install --save angie-date-picker
 First of all add styles and scripts to a page:
 
 ```html
-<<link href="bower_components/angie-date-picker/angie-date-picker.min.css" rel="stylesheet">
+<link href="bower_components/angie-date-picker/angie-date-picker.min.css" rel="stylesheet">
 
 <script src="bower_components/moment/min/moment-with-locales.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
@@ -95,7 +95,7 @@ Step five: use directive in your markup:
 ```html
 <body ng-controller="MainCtrl">
 
-<form name="BirthdayForm"">
+<form name="BirthdayForm">
     <label for="birthday-input">Birthday:</label>
     <div>
     <!-- Popup -->
@@ -114,3 +114,11 @@ Step five: use directive in your markup:
 
 </body>
 ```
+
+# Contribute
+
+Please, send pull requests if you want to contribute and make date picker more featureful.
+
+# License
+
+MIT

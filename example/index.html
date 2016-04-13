@@ -43,16 +43,16 @@
 </head>
 <body ng-controller="MainCtrl">
 
-<form name="BirthdayForm" style="margin: 0 auto; width: 320px;">
+<form name="BirthdayForm">
     <label for="birthday-input">Birthday:</label>
-    <div style="position: relative;"><input name="birthday"
+    <div><input name="birthday"
            id="birthday-input"
            ng-model="birthday"
            date-picker="datePickerOptions.birthday">
     </div>
 </form>
 
-<form name="MeetingForm" style="width: 2000px;">
+<form name="MeetingForm">
     <label>Next meeting at: {{ meeting }}</label>
     <date-picker ng-model="meeting" options="datePickerOptions.meeting"></date-picker>
 </form>
