@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/achugaev93/angie-date-picker/issues"
   },
-  "homepage": "https://github.com/achugaev93/angie-date-picker#readme"
+  "homepage": "https://github.com/achugaev93/angie-date-picker#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-bower-publish": "0.0.2"
+  }
 }

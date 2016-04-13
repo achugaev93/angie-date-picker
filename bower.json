@@ -1,6 +1,6 @@
 {
   "name": "angie-date-picker",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "authors": [
     "Alex Chugaev <achugaev93@gmail.com>"
   ],
@@ -21,7 +21,9 @@
     "bower_components",
     "test",
     "tests",
-    "example"
+    "example",
+    "gulpfile.js",
+    "package.json"
   ],
   "dependencies": {
     "angular": "^1.5.3",
