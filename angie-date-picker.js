@@ -311,7 +311,7 @@ angular.module('angie.datePicker', [
                     });
 
                     offset = getOffset();
-                    
+
                     $popup.css('left', offset.x);
                     $popup.css('top', offset.y);
                 }
@@ -465,6 +465,10 @@ angular.module('angie.datePicker', [
 
                 $element.on('click', function () {
                     $scope.open();
+                });
+
+                $scope.$on('$destroy', function () {
+                    $scope.close();
                 });
             }
 
