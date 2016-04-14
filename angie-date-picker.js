@@ -186,6 +186,7 @@ angular.module('angie.datePicker', [
             var $popup;
             var options = $scope.datePicker || $scope.options || {};
             var isInline = $element.prop('tagName') === 'DATE-PICKER';
+            var timerIds = [];
 
             options.modelDateFormat = options.modelDateFormat || datePickerOptions.modelDateFormat;
             options.viewDateFormat = options.viewDateFormat || datePickerOptions.viewDateFormat;
@@ -232,24 +233,6 @@ angular.module('angie.datePicker', [
                 }
             };
 
-            $scope.getDaysNames();
-
-
-            function isWeekend(date, dayOfMonth) {
-                var d = moment(date);
-                d.date(dayOfMonth);
-                var dayOfWeek = d.day();
-
-                return dayOfWeek === 0 || dayOfWeek === 6;
-            }
-
-            function isToday(date, dayOfMonth) {
-                var now = moment();
-                var d = moment(date);
-                d.date(dayOfMonth);
-
-                return d.isSame(now, 'day');
-            }
 
             $scope.getMonthDays = function () {
                 var dateStart = moment($scope.currentDate).startOf('month');
@@ -265,7 +248,10 @@ angular.module('angie.datePicker', [
                 for (i = 0; i < totalDaysInMonth; i++) {
                     days.push({
                         number: i + 1,
-                        inactive: (dateStart.clone().date(i + 1).isBefore($scope.min) || dateStart.clone().date(i + 1).isAfter($scope.max)),
+                        inactive: (
+                            dateStart.clone().date(i + 1).isBefore($scope.min) ||
+                            dateStart.clone().date(i + 1).isAfter($scope.max)
+                        ),
                         weekend: isWeekend($scope.currentDate, i + 1),
                         today: isToday($scope.currentDate, i + 1)
                     });
@@ -302,6 +288,205 @@ angular.module('angie.datePicker', [
                     $scope.weeks.push(days.slice(i * 7, (i + 1) * 7));
                 }
             };
+
+
+            $scope.open = function () {
+                var offset;
+
+                $scope.getDaysNames();
+                $scope.getMonthDays();
+
+                $backdrop = angular.element('<div class="ngldp__backdrop"></div>');
+                $popup = $compile(datePickerOptions.template)($scope);
+
+                if (options.className) {
+                    $popup.addClass(options.className);
+                }
+
+                if (!isInline) {
+                    $scope.$apply();
+
+                    $backdrop.on('click', function () {
+                        $scope.close();
+                    });
+
+                    offset = getOffset();
+                    
+                    $popup.css('left', offset.x);
+                    $popup.css('top', offset.y);
+                }
+
+                // Render
+
+                if (!isInline) {
+                    $body.append($backdrop);
+                    $body.append($popup);
+                } else {
+                    $element.empty();
+                    $element.append($popup);
+                }
+
+                // Correct position
+
+                if (!isInline) {
+                    offset = getOffset();
+                    $popup.css('left', offset.x);
+                    $popup.css('top', offset.y);
+                }
+
+                // Call "open" callback
+
+                if (typeof options.onOpen == 'function') {
+                    options.onOpen();
+                }
+            };
+
+
+            $scope.close = function () {
+                if (isInline || !$popup) {
+                    return;
+                }
+
+                if ($popup) {
+                    $popup.remove();
+                    $popup = null;
+                }
+
+                if ($backdrop) {
+                    $backdrop.remove();
+                    $backdrop = null;
+                }
+
+                if (typeof options.onClose == 'function') {
+                    options.onClose();
+                }
+            };
+
+
+            $scope.prev = function (units) {
+                $scope.currentDate.subtract(options.steps[units], datePickerOptions.unitsMap[units]);
+
+                fitIntoRange();
+                $scope.getMonthDays();
+                updateView();
+            };
+
+
+            $scope.next = function (units) {
+                $scope.currentDate.add(options.steps[units], datePickerOptions.unitsMap[units]);
+
+                fitIntoRange();
+                $scope.getMonthDays();
+                updateView();
+            };
+
+
+            $scope.selectDay = function (day) {
+                if (day.inactive) {
+                    return;
+                }
+
+                $scope.currentDate.date(day.number);
+
+                fitIntoRange();
+                updateView();
+            };
+
+
+            $scope.selectToday = function () {
+                $scope.currentDate = moment();
+
+                fitIntoRange();
+                $scope.getMonthDays();
+                updateView();
+            };
+
+
+            $scope.add = function (amount, units) {
+                $scope.currentDate.add(amount, units);
+
+                fitIntoRange();
+                $scope.getMonthDays();
+                updateView();
+            };
+
+
+            $scope.subtract = function (amount, units) {
+                $scope.currentDate.subtract(amount, units);
+
+                fitIntoRange();
+                $scope.getMonthDays();
+                updateView();
+            };
+
+
+            $scope.startAutoIncrement = function (units) {
+                $scope.endAutoIncrement();
+
+                timerIds.push($interval(function () {
+                    $scope.add(options.autoIncrement[units], datePickerOptions.unitsMap[units]);
+                }, options.autoIncrementInterval));
+            };
+
+
+            $scope.startAutoDecrement = function (units) {
+                $scope.endAutoIncrement();
+
+                timerIds.push($interval(function () {
+                    $scope.subtract(options.autoIncrement[units], datePickerOptions.unitsMap[units]);
+                }, options.autoIncrementInterval));
+            };
+
+
+            $scope.endAutoIncrement = function () {
+                timerIds.forEach(function (timerId) {
+                    $interval.cancel(timerId);
+                });
+
+                timerIds.length = 0;
+            };
+
+
+            $scope.isActivateKey = function (e) {
+                // Space and Return are activate keys
+
+                var isActivate = e.which === 32 || e.which === 13;
+
+                if (isActivate) {
+                    e.preventDefault();
+                }
+
+                return isActivate;
+            };
+
+
+            if (!isInline) {
+                $element.prop('readOnly', true);
+
+                $element.on('click', function () {
+                    $scope.open();
+                });
+            }
+
+            $scope.getDaysNames();
+
+            fitIntoRange();
+            updateView();
+
+            if (isInline) {
+                $scope.open();
+            }
+
+
+            function updateView() {
+                if (!$scope.currentDate) {
+                    return;
+                }
+
+                ngModel.$setViewValue($scope.currentDate.format(options.modelDateFormat));
+                ngModel.$render();
+                $element.prop('value', $scope.currentDate.format(options.viewDateFormat));
+            }
 
 
             function getOffset() {
@@ -380,101 +565,6 @@ angular.module('angie.datePicker', [
             }
 
 
-            $scope.open = function () {
-                $scope.getDaysNames();
-                $scope.getMonthDays();
-
-                $backdrop = angular.element('<div class="ngldp__backdrop"></div>');
-                $popup = $compile(datePickerOptions.template)($scope);
-
-                if (options.className) {
-                    $popup.addClass(options.className);
-                }
-
-                if (!isInline) {
-                    $scope.$apply();
-                }
-
-                // Close popup when user clicks on backdrop
-
-                if (!isInline) {
-                    $backdrop.on('click', function () {
-                        $scope.close();
-                    });
-                }
-
-                // Set position
-
-                var offset;
-
-                if (!isInline) {
-                    offset = getOffset();
-                    $popup.css('left', offset.x);
-                    $popup.css('top', offset.y);
-                }
-
-                // Render
-
-                if (!isInline) {
-                    $body.append($backdrop);
-                    $body.append($popup);
-                } else {
-                    $element.empty();
-                    $element.append($popup);
-                }
-
-                // Correct position
-
-                if (!isInline) {
-                    offset = getOffset();
-                    $popup.css('left', offset.x);
-                    $popup.css('top', offset.y);
-                }
-
-                // Call "open" callback
-
-                if (typeof options.onOpen == 'function') {
-                    options.onOpen();
-                }
-            };
-
-            if (isInline) {
-                $scope.open();
-            }
-
-
-            $scope.close = function () {
-                if (isInline || !$popup) {
-                    return;
-                }
-
-                if ($popup) {
-                    $popup.remove();
-                    $popup = null;
-                }
-
-                if ($backdrop) {
-                    $backdrop.remove();
-                    $backdrop = null;
-                }
-
-                if (typeof options.onClose == 'function') {
-                    options.onClose();
-                }
-            };
-
-
-            function updateView() {
-                if (!$scope.currentDate) {
-                    return;
-                }
-
-                ngModel.$setViewValue($scope.currentDate.format(options.modelDateFormat));
-                ngModel.$render();
-                $element.prop('value', $scope.currentDate.format(options.viewDateFormat));
-            }
-
-
             function parseDate(date, fallback) {
                 if (typeof date == 'string') {
                     return moment(date, options.modelDateFormat);
@@ -494,117 +584,23 @@ angular.module('angie.datePicker', [
                 }
             }
 
-            fitIntoRange();
 
+            function isWeekend(date, dayOfMonth) {
+                var d = moment(date);
+                d.date(dayOfMonth);
+                var dayOfWeek = d.day();
 
-            $scope.prev = function (units) {
-                $scope.currentDate.subtract(options.steps[units], datePickerOptions.unitsMap[units]);
-
-                fitIntoRange();
-                $scope.getMonthDays();
-                updateView();
-            };
-
-
-            $scope.next = function (units) {
-                $scope.currentDate.add(options.steps[units], datePickerOptions.unitsMap[units]);
-
-                fitIntoRange();
-                $scope.getMonthDays();
-                updateView();
-            };
-
-
-            $scope.selectDay = function (day) {
-                if (day.inactive) {
-                    return;
-                }
-
-                $scope.currentDate.date(day.number);
-
-                fitIntoRange();
-                updateView();
-            };
-
-
-            $scope.selectToday = function () {
-                $scope.currentDate = moment();
-
-                fitIntoRange();
-                $scope.getMonthDays();
-                updateView();
-            };
-
-
-            $scope.add = function (amount, units) {
-                $scope.currentDate.add(amount, units);
-
-                fitIntoRange();
-                $scope.getMonthDays();
-                updateView();
-            };
-
-
-            $scope.subtract = function (amount, units) {
-                $scope.currentDate.subtract(amount, units);
-
-                fitIntoRange();
-                $scope.getMonthDays();
-                updateView();
-            };
-
-
-            var timerIds = [];
-
-
-            $scope.startAutoIncrement = function (units) {
-                $scope.endAutoIncrement();
-
-                timerIds.push($interval(function () {
-                    $scope.add(options.autoIncrement[units], datePickerOptions.unitsMap[units]);
-                }, options.autoIncrementInterval));
-            };
-
-
-            $scope.startAutoDecrement = function (units) {
-                $scope.endAutoIncrement();
-
-                timerIds.push($interval(function () {
-                    $scope.subtract(options.autoIncrement[units], datePickerOptions.unitsMap[units]);
-                }, options.autoIncrementInterval));
-            };
-
-
-            $scope.endAutoIncrement = function () {
-                timerIds.forEach(function (timerId) {
-                    $interval.cancel(timerId);
-                });
-                timerIds.length = 0;
-            };
-
-
-            $scope.isActivateKey = function (e) {
-                // Space is activate key
-
-                var isActivate = e.which === 32 || e.which === 13;
-
-                if (isActivate) {
-                    e.preventDefault();
-                }
-
-                return isActivate;
-            };
-
-
-            if (!isInline) {
-                $element.prop('readOnly', true);
-
-                $element.on('click', function () {
-                    $scope.open();
-                });
+                return dayOfWeek === 0 || dayOfWeek === 6;
             }
 
-            updateView();
+
+            function isToday(date, dayOfMonth) {
+                var now = moment();
+                var d = moment(date);
+                d.date(dayOfMonth);
+
+                return d.isSame(now, 'day');
+            }
         }
     };
 }]);
